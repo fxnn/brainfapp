@@ -2,9 +2,7 @@ language: android
 
 before_install:
 - chmod +x gradlew
-- mkdir "$ANDROID_HOME/licenses" || true
-- cp ./licenses/* "$ANDROID_HOME/licenses/"
 
 android:
   components:
-    - build-tools-28.0.0
+    - build-tools-28.0.3
