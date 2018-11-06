@@ -1,5 +1,17 @@
 language: android
 
+env:
+  global:
+   # install timeout in minutes (2 minutes by default)
+    - ADB_INSTALL_TIMEOUT=8
+
+before_script:
+  # Emulator Management: Create, Start and Wait
+  - echo no | android create avd --force -n test -t android-28 --abi armeabi-v7a
+  - emulator -avd test -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
 before_install:
 - chmod +x gradlew
 
@@ -7,3 +19,8 @@ android:
   components:
     - build-tools-28.0.3
     - android-28
+    # Run emulator
+    - sys-img-armeabi-v7a-android-28
+    
+  licenses:
+   - 'android-sdk-license-.+'
