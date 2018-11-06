@@ -4,7 +4,7 @@ env:
   global:
   - ANDROID_BUILD_TOOLS_VERSION=28.0.3
   - ANDROID_TARGET=android-23
-  - ANDROID_ABI=armeabi-v7a
+  - ANDROID_ABI=x86
   # install timeout in minutes (2 minutes by default)
   - ADB_INSTALL_TIMEOUT=8
 
