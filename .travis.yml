@@ -3,11 +3,14 @@ language: android
 env:
   global:
   - ANDROID_BUILD_TOOLS_VERSION=28.0.3
+  # cf. https://en.wikipedia.org/wiki/Android_version_history
   - ANDROID_TARGET=android-24
   # NOTE: ABI x86 would need Hardware Acceleration / KVM
   - ANDROID_ABI=armeabi-v7a
-  # install timeout in minutes (2 minutes by default)
+  # HINT: install timeout in minutes (2 minutes by default)
   - ADB_INSTALL_TIMEOUT=8
+  # HINT: fix error "-audio: invalid option", cf. https://github.com/travis-ci/travis-ci/issues/8188#issuecomment-336690553
+  - QEMU_AUDIO_DRV=none emulator -avd test -no-window &
 
 before_script:
 # Emulator Management: Create, Start and Wait
