@@ -3,8 +3,8 @@ language: android
 env:
   global:
   - ANDROID_BUILD_TOOLS_VERSION=28.0.3
-  - ANDROID_TARGET=android-28
-  - ANDROID_ABI=x86
+  - ANDROID_TARGET=android-23
+  - ANDROID_ABI=armeabi-v7a
   # install timeout in minutes (2 minutes by default)
   - ADB_INSTALL_TIMEOUT=8
 
@@ -20,7 +20,7 @@ before_install:
 
 android:
   components:
-  # cf. sdkmanager --list [--verbose]
+  # cf. sdkmanager --list [--verbose] or Travis-CI build log
   - tools
   - platform-tools
   - build-tools-$ANDROID_BUILD_TOOLS_VERSION
