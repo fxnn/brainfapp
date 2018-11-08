@@ -4,7 +4,8 @@ env:
   global:
   - ANDROID_BUILD_TOOLS_VERSION=28.0.3
   # cf. https://en.wikipedia.org/wiki/Android_version_history
-  - ANDROID_TARGET=android-24
+  - ANDROID_TARGET=android-28
+  - EMULATOR_ANDROID_TARGET=android-24
   # NOTE: ABI x86 would need Hardware Acceleration / KVM
   - ANDROID_ABI=armeabi-v7a
   # HINT: install timeout in minutes (2 minutes by default)
@@ -12,7 +13,7 @@ env:
 
 before_script:
 # Emulator Management: Create, Start and Wait
-- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+- echo no | android create avd --force -n test -t $EMULATOR_ANDROID_TARGET --abi $ANDROID_ABI
 # HINT: fix error "-audio: invalid option", cf. https://github.com/travis-ci/travis-ci/issues/8188#issuecomment-336690553
 - QEMU_AUDIO_DRV=none emulator -avd test -no-window &
 - android-wait-for-emulator
@@ -20,8 +21,6 @@ before_script:
 
 before_install:
 - chmod +x gradlew
-# HINT: accept licence for version used in Gradle build, cf. https://github.com/travis-ci/travis-ci/issues/8874#issuecomment-350350607
-- yes | sdkmanager "platforms;android-28"
 
 android:
   components:
@@ -31,8 +30,9 @@ android:
   - platform-tools
   - build-tools-$ANDROID_BUILD_TOOLS_VERSION
   - $ANDROID_TARGET
+  - $EMULATOR_ANDROID_TARGET
   # Run emulator
-  - sys-img-$ANDROID_ABI-$ANDROID_TARGET
+  - sys-img-$ANDROID_ABI-$EMULATOR_ANDROID_TARGET
   # Additional components
   #- extra-google-google_play_services
   #- extra-google-m2repository
