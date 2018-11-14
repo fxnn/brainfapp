@@ -17,17 +17,20 @@ import java.io.DataOutput
 import java.io.DataOutputStream
 import java.nio.charset.Charset
 
-const val CODE_EXTRA_KEY = "de.fxnn.brainfapp.Code"
 val CHARSET = Charset.defaultCharset()
 
 class RunActivity : AppCompatActivity() {
+
+    companion object {
+        const val INTENT_EXTRA_CODE = "de.fxnn.brainfapp.Code"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_run)
 
-        val code = intent!!.extras!![CODE_EXTRA_KEY]!!.toString()
-        var byteArrayOutputStream = ByteArrayOutputStream()
+        val code = getCodeFromIntent()!!
+        val byteArrayOutputStream = ByteArrayOutputStream()
         val dataOutput = DataOutputStream(byteArrayOutputStream)
 
         runBrainfuckProgram(code, dataOutput)
@@ -36,6 +39,12 @@ class RunActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, "Program produced ${string.length} chars", Toast.LENGTH_SHORT).show()
 
         textView_output.text = string
+    }
+
+    private fun getCodeFromIntent(): String? {
+        val extras = intent.extras ?: return null
+        val codeObject = extras[INTENT_EXTRA_CODE] ?: return null
+        return codeObject.toString()
     }
 
     private fun runBrainfuckProgram(code: String, dataOutput: DataOutput) {

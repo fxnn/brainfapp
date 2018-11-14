@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#64dd17</color>
-    <color name="colorPrimaryDark">#388e3c</color>
-    <color name="colorAccent">#d500f9</color>
+    <!-- https://material.io/tools/color/#!/?view.left=0&view.right=0&primary.color=64DD17&secondary.color=7E57C2 -->
+    <color name="colorPrimary">@color/material_light_green_accent_700</color>
+    <color name="colorPrimaryDark">#1faa00</color>
+    <color name="colorAccent">@color/material_deep_purple_400</color>
+    <color name="textOnPrimary">#000000</color>
+    <color name="textOnAccent">#ffffff</color>
 </resources>

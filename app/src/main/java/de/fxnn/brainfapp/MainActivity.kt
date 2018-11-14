@@ -2,12 +2,13 @@ package de.fxnn.brainfapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,10 +17,45 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        configureRecentFileList(createRecentFileArray())
+        configureCreateFileFab()
+    }
+
+    private fun configureCreateFileFab() {
         fab_create_file.setOnClickListener { _ ->
-            val intent = Intent(this, CodeActivity::class.java)
-            startActivity(intent)
+            startActivity(createCodeActivityIntent())
         }
+    }
+
+    private fun createCodeActivityIntent(recentFile: RecentFile): Intent {
+        val intent = createCodeActivityIntent()
+        intent.putExtra(CodeActivity.INTENT_EXTRA_CODE, recentFile.code)
+        return intent
+    }
+
+    private fun createCodeActivityIntent() = Intent(this, CodeActivity::class.java)
+
+    private fun onRecentFileSelected(recentFile: RecentFile, view: View) {
+        startActivity(createCodeActivityIntent(recentFile))
+    }
+
+    private fun configureRecentFileList(recentFileArray: Array<RecentFile>) {
+        val recentFileAdapter = RecentFileAdapter(
+            recentFileArray,
+            this::onRecentFileSelected
+        )
+
+        view_recentFileList.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = recentFileAdapter
+        }
+    }
+
+    private fun createRecentFileArray(): Array<RecentFile> {
+        return arrayOf(
+            RecentFile("zero.b", "+++[->++++<]>[->++++<]>."),
+            RecentFile("increase.b", ",+.")
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
