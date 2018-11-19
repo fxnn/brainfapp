@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun createCodeActivityIntent(recentFile: RecentFile): Intent {
         val intent = createCodeActivityIntent()
-        intent.putExtra(CodeActivity.INTENT_EXTRA_CODE, recentFile.code)
+        intent.putExtra(CodeActivity.INTENT_EXTRA_FILE_NAME, recentFile.fileName)
         return intent
     }
 
@@ -52,10 +52,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createRecentFileArray(): Array<RecentFile> {
-        return arrayOf(
-            RecentFile("zero.b", "+++[->++++<]>[->++++<]>."),
-            RecentFile("increase.b", ",+.")
-        )
+        return BrainfappApplication
+            .database(this)
+            .recentFileDao()
+            .getAll()
+            .toTypedArray()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

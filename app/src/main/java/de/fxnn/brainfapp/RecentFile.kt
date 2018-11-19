@@ -1,4 +1,20 @@
 package de.fxnn.brainfapp
 
-class RecentFile(val fileName: String, val code: String) {
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+
+@Entity(
+    indices = [
+        Index(value = ["fileName"], unique = true)
+    ]
+)
+data class RecentFile(
+    @PrimaryKey var id: Int?
+) {
+    constructor(fileName: String): this(null) {
+        this.fileName = fileName
+    }
+
+    var fileName: String? = null
 }
