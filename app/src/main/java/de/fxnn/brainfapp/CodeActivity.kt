@@ -3,16 +3,11 @@ package de.fxnn.brainfapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity;
-import android.text.Editable
-
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_code.*
 import kotlinx.android.synthetic.main.content_code.*
-import java.io.File
 import java.io.FileNotFoundException
-import java.nio.file.Files
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.util.*
 
 class CodeActivity : AppCompatActivity() {
@@ -54,7 +49,7 @@ class CodeActivity : AppCompatActivity() {
     private fun updateRecentFile() {
         val recentFileDao = BrainfappApplication.database(this).recentFileDao()
         val byFileName = recentFileDao.findByFileName(fileName!!)
-        if(byFileName.isEmpty()) {
+        if (byFileName.isEmpty()) {
             val recentFile = RecentFile(fileName!!)
             recentFileDao.insert(recentFile)
         } else {

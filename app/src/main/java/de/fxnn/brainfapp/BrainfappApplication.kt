@@ -12,6 +12,7 @@ class BrainfappApplication: Application() {
         super.onCreate()
         database = Room
             .databaseBuilder(this, BrainfappDatabase::class.java, BrainfappDatabase.name)
+            .allowMainThreadQueries() // TODO: remove, and use LiveData, RxJava or similar
             .build()
     }
 

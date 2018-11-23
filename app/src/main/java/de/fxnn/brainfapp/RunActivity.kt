@@ -1,10 +1,9 @@
 package de.fxnn.brainfapp
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.common.base.Stopwatch
-import com.google.common.io.ByteArrayDataOutput
 import com.google.common.io.ByteStreams
 import de.fxnn.brainfuck.ProgramExecutor
 import de.fxnn.brainfuck.interpreter.BrainfuckInterpreter
