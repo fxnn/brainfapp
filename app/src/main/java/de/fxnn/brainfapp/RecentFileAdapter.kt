@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.reflect.KFunction2
 
@@ -11,13 +13,15 @@ class RecentFileAdapter(
     private val onRecentFileSelected: (RecentFile, View) -> Unit
 ) : RecyclerView.Adapter<RecentFileAdapter.ViewHolder>() {
 
-    var selectedItemPosition = RecyclerView.NO_POSITION
-    var recentFiles: List<RecentFile> = listOf()
-        set(value) {
-            field = value
-            selectedItemPosition = RecyclerView.NO_POSITION
+    private var selectedItemPosition = RecyclerView.NO_POSITION
+    private var recentFiles: List<RecentFile> = emptyList()
+
+    fun observe(lifecycleOwner: LifecycleOwner, recentFileViewModel: RecentFileViewModel) {
+        recentFileViewModel.recentFiles.observe(lifecycleOwner, Observer {
+            recentFiles = it ?: emptyList()
             notifyDataSetChanged()
-        }
+        })
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val textView = LayoutInflater

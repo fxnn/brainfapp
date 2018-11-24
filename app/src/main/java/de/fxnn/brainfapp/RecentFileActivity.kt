@@ -12,18 +12,22 @@ import kotlinx.android.synthetic.main.content_recent_file.*
 
 class RecentFileActivity : AppCompatActivity() {
 
+    private lateinit var recentFileDao: RecentFileDao
+    private lateinit var viewModel: RecentFileViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        recentFileDao = BrainfappApplication
+            .database(this)
+            .recentFileDao()
+        viewModel = getViewModel { RecentFileViewModel(recentFileDao) }
+
         setContentView(R.layout.activity_recent_file)
         setSupportActionBar(toolbar)
 
-        configureRecentFileList(loadRecentFiles())
+        configureRecentFileList()
         configureCreateFileFab()
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        (view_recentFileList.adapter as RecentFileAdapter).recentFiles = loadRecentFiles()
     }
 
     private fun configureCreateFileFab() {
@@ -44,23 +48,14 @@ class RecentFileActivity : AppCompatActivity() {
         startActivity(createCodeActivityIntent(recentFile))
     }
 
-    private fun configureRecentFileList(recentFiles: List<RecentFile>) {
-        val recentFileAdapter = RecentFileAdapter(
-            this::onRecentFileSelected
-        )
-        recentFileAdapter.recentFiles = recentFiles
-
+    private fun configureRecentFileList() {
+        val recentFileAdapter = RecentFileAdapter(this::onRecentFileSelected).apply {
+            observe(this@RecentFileActivity, viewModel)
+        }
         view_recentFileList.apply {
             layoutManager = LinearLayoutManager(this@RecentFileActivity)
             adapter = recentFileAdapter
         }
-    }
-
-    private fun loadRecentFiles(): List<RecentFile> {
-        return BrainfappApplication
-            .database(this)
-            .recentFileDao()
-            .getAll()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

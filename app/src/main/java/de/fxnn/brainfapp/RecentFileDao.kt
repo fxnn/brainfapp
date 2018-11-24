@@ -1,5 +1,6 @@
 package de.fxnn.brainfapp
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -9,7 +10,7 @@ import androidx.room.Update
 interface RecentFileDao {
 
     @Query("SELECT * FROM RecentFile")
-    fun getAll(): List<RecentFile>
+    fun getAll(): LiveData<List<RecentFile>>
 
     @Query("SELECT * FROM RecentFile WHERE fileName LIKE :fileName")
     fun findByFileName(fileName: String): List<RecentFile>
