@@ -8,11 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlin.reflect.KFunction2
 
 class RecentFileAdapter(
-    private val recentFileList: Array<RecentFile>,
     private val onRecentFileSelected: (RecentFile, View) -> Unit
 ) : RecyclerView.Adapter<RecentFileAdapter.ViewHolder>() {
 
     var selectedItemPosition = RecyclerView.NO_POSITION
+    var recentFiles: Array<RecentFile> = arrayOf()
+        set(value) {
+            field = value
+            selectedItemPosition = RecyclerView.NO_POSITION
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val textView = LayoutInflater
@@ -24,7 +29,7 @@ class RecentFileAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = recentFileList[position].fileName
+        holder.textView.text = recentFiles[position].fileName
         holder.textView.isSelected = position == selectedItemPosition
     }
 
@@ -32,10 +37,10 @@ class RecentFileAdapter(
         notifyItemChanged(selectedItemPosition)
         selectedItemPosition = itemPosition
         notifyItemChanged(selectedItemPosition)
-        onRecentFileSelected(recentFileList[itemPosition], item)
+        onRecentFileSelected(recentFiles[itemPosition], item)
     }
 
-    override fun getItemCount(): Int = recentFileList.size
+    override fun getItemCount(): Int = recentFiles.size
 
     class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView) {
 

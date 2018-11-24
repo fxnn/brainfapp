@@ -21,6 +21,11 @@ class RecentFileActivity : AppCompatActivity() {
         configureCreateFileFab()
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        (view_recentFileList.adapter as RecentFileAdapter).recentFiles = loadRecentFiles()
+    }
+
     private fun configureCreateFileFab() {
         fab_create_file.setOnClickListener { _ ->
             startActivity(createCodeActivityIntent())
@@ -41,9 +46,9 @@ class RecentFileActivity : AppCompatActivity() {
 
     private fun configureRecentFileList(recentFileArray: Array<RecentFile>) {
         val recentFileAdapter = RecentFileAdapter(
-            recentFileArray,
             this::onRecentFileSelected
         )
+        recentFileAdapter.recentFiles = recentFileArray
 
         view_recentFileList.apply {
             layoutManager = LinearLayoutManager(this@RecentFileActivity)
