@@ -7,17 +7,17 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.activity_recent_file.*
+import kotlinx.android.synthetic.main.content_recent_file.*
 
-class MainActivity : AppCompatActivity() {
+class RecentFileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_recent_file)
         setSupportActionBar(toolbar)
 
-        configureRecentFileList(createRecentFileArray())
+        configureRecentFileList(loadRecentFiles())
         configureCreateFileFab()
     }
 
@@ -46,12 +46,12 @@ class MainActivity : AppCompatActivity() {
         )
 
         view_recentFileList.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
+            layoutManager = LinearLayoutManager(this@RecentFileActivity)
             adapter = recentFileAdapter
         }
     }
 
-    private fun createRecentFileArray(): Array<RecentFile> {
+    private fun loadRecentFiles(): Array<RecentFile> {
         return BrainfappApplication
             .database(this)
             .recentFileDao()
