@@ -44,11 +44,11 @@ class RecentFileActivity : AppCompatActivity() {
         startActivity(createCodeActivityIntent(recentFile))
     }
 
-    private fun configureRecentFileList(recentFileArray: Array<RecentFile>) {
+    private fun configureRecentFileList(recentFiles: List<RecentFile>) {
         val recentFileAdapter = RecentFileAdapter(
             this::onRecentFileSelected
         )
-        recentFileAdapter.recentFiles = recentFileArray
+        recentFileAdapter.recentFiles = recentFiles
 
         view_recentFileList.apply {
             layoutManager = LinearLayoutManager(this@RecentFileActivity)
@@ -56,12 +56,11 @@ class RecentFileActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadRecentFiles(): Array<RecentFile> {
+    private fun loadRecentFiles(): List<RecentFile> {
         return BrainfappApplication
             .database(this)
             .recentFileDao()
             .getAll()
-            .toTypedArray()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

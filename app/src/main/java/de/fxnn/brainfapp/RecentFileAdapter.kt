@@ -12,7 +12,7 @@ class RecentFileAdapter(
 ) : RecyclerView.Adapter<RecentFileAdapter.ViewHolder>() {
 
     var selectedItemPosition = RecyclerView.NO_POSITION
-    var recentFiles: Array<RecentFile> = arrayOf()
+    var recentFiles: List<RecentFile> = listOf()
         set(value) {
             field = value
             selectedItemPosition = RecyclerView.NO_POSITION
